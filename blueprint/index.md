@@ -49,7 +49,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 ### Genesys Cloud account
 
 * A Genesys Cloud license. For more information, see [Genesys Cloud Pricing](https://www.genesys.com/pricing "Opens the Genesys Cloud pricing page") in the Genesys website.
-* The Master Admin role. For more information, see [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Opens the Roles and permissions overview article") in the Genesys Cloud Resource Center.
+* The Master Admin role. For more information, see [Roles and permissions overview](https://help.genesys.cloud/?p=24360 "Opens the Roles and permissions overview article") in the Genesys Cloud Resource Center.
 
 ### AWS account
 
@@ -65,7 +65,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 
 ### Create a Code Authorization / PKCE OAuth Grant for Genesys Cloud
 
-1. Login to your Genesys Cloud organization and create a new OAuth API (Code Authorization / PKCE). [Create an OAuth Client](https://help.mypurecloud.com/articles/create-an-oauth-client/)
+1. Login to your Genesys Cloud organization and create a new OAuth API (Code Authorization / PKCE). [Create an OAuth Client](https://help.genesys.cloud/articles/create-an-oauth-client/)
 2. Assign your hosted site to the Authorized redirect URIs.
 3. In your local blueprint repository, open the [config.js](https://github.com/GenesysCloudBlueprints/email-translator-blueprint/blob/main/docs/scripts/config.js) file. Add the client ID from your OAuth client and specify the region where your Genesys Cloud organization is located, for example, `mypurecloud.ie` or `mypurecloud.com.au`.
 
@@ -75,7 +75,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 2. Add a policy to the IAM that grants full access to the AWS Translate service. For more information, see [Managing IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage.html "Opens Managing IAM policies") in the AWS documentation.
 3. Create an access key for the IAM user. For more information, see [Managing access keys for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html "Opens Managing access keys for IAM users") in the AWS documentation.
 4. Write down the access key and secret.
-5. Create an .env file in the directory folder and provide values for the following variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`,  `AWS_SECRET_ACCESS_KEY`, `GENESYSCLOUD_OAUTHCLIENT_ID`, `GENESYSCLOUD_OAUTHCLIENT_SECRET`, and `GENESYSCLOUD_REGION`.
+5. Create an .env file in the directory folder and provide values for the following variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`,  `AWS_SECRET_ACCESS_KEY`, `GENESYS_CLIENT_ID`, `GENESYS_CLIENT_SECRET`, and `GENESYS_REGION`.
 
   :::primary
   **Tip**: Start with the sample.env file for this blueprint and provide your org-specific details.
@@ -83,11 +83,11 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 
 ### Install and activate the Email Translator in Genesys Cloud
 
-1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.mypurecloud.com/?p=135807 "Opens the Add an integration article") in the Genesys Cloud Resource Center.
+1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.genesys.cloud/?p=135807 "Opens the Add an integration article") in the Genesys Cloud Resource Center.
 
    ![Add integration](images/add-integration.png "Add integration")
 
-2. Install the **Interaction Widget** integration. For more information, see [Set up an Interaction Widget integration](https://help.mypurecloud.com/?p=229319 "Opens the Set up an Interaction Widget integration article") in the Genesys Cloud Resource Center.
+2. Install the **Interaction Widget** integration. For more information, see [Set up an Interaction Widget integration](https://help.genesys.cloud/?p=229319 "Opens the Set up an Interaction Widget integration article") in the Genesys Cloud Resource Center.
 
    ![Install Interaction Widget](images/install-interaction-widget.png "Install Interaction Widget")
 
@@ -151,7 +151,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 2. Add an email address to the domain.
   * Under Email Routing, select the queue you specified when you [installed and activated the Email Translator](#install-and-activate-the-Email-Translator-in-Genesys-Cloud "Goes to the Install and activate the Email Translator in Genesys Cloud section").
 
-For more information, see [Send and receive emails directly with the myPureCloud.com domain](https://help.mypurecloud.com/articles/send-and-receive-emails-directly-with-the-mypurecloud-com-domain/ "Opens the Send and receive emails directly with the myPureCloud.com domain article") in the Genesys Cloud Resource Center.
+For more information, see [Send and receive emails directly with the myPureCloud.com domain](https://help.genesys.cloud/articles/send-and-receive-emails-directly-with-the-mypurecloud-com-domain/ "Opens the Send and receive emails directly with the myPureCloud.com domain article") in the Genesys Cloud Resource Center.
 
 ### Test the solution
 
@@ -172,7 +172,7 @@ For more information, see [Send and receive emails directly with the myPureCloud
 
 ## Additional resources
 
-* [Genesys Cloud Platform Client SDK](https://developer.mypurecloud.com/api/rest/client-libraries/ "Opens the Genesys Cloud Platform Client SDK page")
+* [Genesys Cloud Platform Client SDK](https://developer.genesys.cloud/api/rest/client-libraries/ "Opens the Genesys Cloud Platform Client SDK page")
 * [Genesys AppFoundry](https://appfoundry.genesys.com/filter/genesyscloud "Opens the Genesys AppFoundry")
 * [Amazon Translate](https://aws.amazon.com/translate/ "Opens Amazon Translate page") in the AWS documentation
 * [Email-translator-blueprint repository](https://github.com/GenesysCloudBlueprints/email-translator-blueprint "Opens the email-translator-blueprint repository in GitHub")

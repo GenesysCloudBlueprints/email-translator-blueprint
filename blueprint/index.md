@@ -49,7 +49,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 ### Genesys Cloud account
 
 * A Genesys Cloud license. For more information, see [Genesys Cloud Pricing](https://www.genesys.com/pricing "Opens the Genesys Cloud pricing page") in the Genesys website.
-* The Master Admin role. For more information, see [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 "Opens the Roles and permissions overview article") in the Genesys Cloud Resource Center.
+* The Master Admin role. For more information, see [Roles and permissions overview](https://help.genesys.cloud/?p=24360 "Opens the Roles and permissions overview article") in the Genesys Cloud Resource Center.
 
 ### AWS account
 
@@ -57,24 +57,17 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
   * IAM service
   * Translate service
 
-## Implementation steps
-
-* [Download the repository containing the project files](#download-the-repository-containing-the-project-files "Goes to the Download the repository containing the project files section")
-* [Create a Token Implicit OAuth Grant for Genesys Cloud](#create-a-token-implicit-oauth-grant-for-genesys-cloud "Goes to the Create a Token Implicit OAuth Grant for Genesys Cloud section")
-* [Set up AWS Translate](#set-up-aws-translate "Goes to the Set up AWS Translate section")
-* [Install and activate the Email Translator in Genesys Cloud](#install-and-activate-the-email-translator-in-genesys-cloud "Goes to the Install and activate the Email Translator in Genesys Cloud section")
-* [Host and run the Node.js app server](#host-and-run-the-node-js-app-server "Goes to the Host and run the Node.js app server section")
-* [Setup email interaction](#set-up-an-email-interaction "Goes to the Set up an email interaction section")
-* [Test the solution](#test-the-solution "Goes to the Test the solution section")
+## Deployment steps
 
 ### Download the repository containing the project files
 
 1. Clone the [email-translator-blueprint repository](https://github.com/GenesysCloudBlueprints/email-translator-blueprint "Opens the email-translator-blueprint repository in GitHub").
 
-### Create a token implicit OAuth grant for Genesys Cloud
+### Create a Code Authorization / PKCE OAuth Grant for Genesys Cloud
 
-1. Log in to your Genesys Cloud organization and create a new OAuth client that uses the Token Implicit Grant (Browser) type. For more information, see [Create an OAuth client](https://help.mypurecloud.com/articles/?p=188023 "Opens the Create an OAuth client article") in the Genesys Cloud Resource Center.
-2. In your local blueprint repository, open the [config.js](https://github.com/GenesysCloudBlueprints/email-translator-blueprint/blob/main/docs/scripts/config.js) file. Add the client ID from your OAuth client and specify the region where your Genesys Cloud organization is located, for example, `mypurecloud.ie` or `mypurecloud.com.au`.
+1. Login to your Genesys Cloud organization and create a new OAuth API (Code Authorization / PKCE). [Create an OAuth Client](https://help.genesys.cloud/articles/create-an-oauth-client/)
+2. Assign your hosted site to the Authorized redirect URIs.
+3. In your local blueprint repository, open the [config.js](https://github.com/GenesysCloudBlueprints/email-translator-blueprint/blob/main/docs/scripts/config.js) file. Add the client ID from your OAuth client and specify the region where your Genesys Cloud organization is located, for example, `mypurecloud.ie` or `mypurecloud.com.au`.
 
 ### Set up AWS Translate
 
@@ -82,7 +75,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 2. Add a policy to the IAM that grants full access to the AWS Translate service. For more information, see [Managing IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage.html "Opens Managing IAM policies") in the AWS documentation.
 3. Create an access key for the IAM user. For more information, see [Managing access keys for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html "Opens Managing access keys for IAM users") in the AWS documentation.
 4. Write down the access key and secret.
-5. Create an .env file in the directory folder and provide values for the following variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`.
+5. Create an .env file in the directory folder and provide values for the following variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`,  `AWS_SECRET_ACCESS_KEY`, `GENESYS_CLIENT_ID`, `GENESYS_CLIENT_SECRET`, and `GENESYS_REGION`.
 
   :::primary
   **Tip**: Start with the sample.env file for this blueprint and provide your org-specific details.
@@ -90,11 +83,11 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 
 ### Install and activate the Email Translator in Genesys Cloud
 
-1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.mypurecloud.com/?p=135807 "Opens the Add an integration article") in the Genesys Cloud Resource Center.
+1. Log in to your Genesys Cloud organization and add an integration. For more information, see [Add an integration](https://help.genesys.cloud/?p=135807 "Opens the Add an integration article") in the Genesys Cloud Resource Center.
 
    ![Add integration](images/add-integration.png "Add integration")
 
-2. Install the **Interaction Widget** integration. For more information, see [Set up an Interaction Widget integration](https://help.mypurecloud.com/?p=229319 "Opens the Set up an Interaction Widget integration article") in the Genesys Cloud Resource Center.
+2. Install the **Interaction Widget** integration. For more information, see [Set up an Interaction Widget integration](https://help.genesys.cloud/?p=229319 "Opens the Set up an Interaction Widget integration article") in the Genesys Cloud Resource Center.
 
    ![Install Interaction Widget](images/install-interaction-widget.png "Install Interaction Widget")
 
@@ -158,7 +151,7 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 2. Add an email address to the domain.
   * Under Email Routing, select the queue you specified when you [installed and activated the Email Translator](#install-and-activate-the-email-translator-in-genesys-cloud "Goes to the Install and activate the Email Translator in Genesys Cloud section").
 
-For more information, see [Send and receive emails directly with the myPureCloud.com domain](https://help.mypurecloud.com/articles/send-and-receive-emails-directly-with-the-mypurecloud-com-domain/ "Opens the Send and receive emails directly with the myPureCloud.com domain article") in the Genesys Cloud Resource Center.
+For more information, see [Send and receive emails directly with the myPureCloud.com domain](https://help.genesys.cloud/articles/send-and-receive-emails-directly-with-the-mypurecloud-com-domain/ "Opens the Send and receive emails directly with the myPureCloud.com domain article") in the Genesys Cloud Resource Center.
 
 ### Test the solution
 
@@ -179,7 +172,7 @@ For more information, see [Send and receive emails directly with the myPureCloud
 
 ## Additional resources
 
-* [Genesys Cloud Platform Client SDK](https://developer.mypurecloud.com/api/rest/client-libraries/ "Opens the Genesys Cloud Platform Client SDK page")
+* [Genesys Cloud Platform Client SDK](https://developer.genesys.cloud/api/rest/client-libraries/ "Opens the Genesys Cloud Platform Client SDK page")
 * [Genesys AppFoundry](https://appfoundry.genesys.com/filter/genesyscloud "Opens the Genesys AppFoundry")
 * [Amazon Translate](https://aws.amazon.com/translate/ "Opens Amazon Translate page") in the AWS documentation
 * [Email-translator-blueprint repository](https://github.com/GenesysCloudBlueprints/email-translator-blueprint "Opens the email-translator-blueprint repository in GitHub")

@@ -114,41 +114,51 @@ document.getElementById('btn-copy')
  *                       INITIAL SETUP
  * -------------------------------------------------------------- */
 const urlParams = new URLSearchParams(window.location.search);
-currentConversationId = urlParams.get('conversationid');
-genesysCloudLanguage = urlParams.get('language');
+
+// Check if we have a token from the OAuth callback redirect
+const token = urlParams.get('token');
+const stateParam = urlParams.get('state');
 
 client.setPersistSettings(true, 'chat-translator');
 client.setEnvironment(config.genesysCloud.region);
-client.loginImplicitGrant(
-    config.clientID,
-    config.redirectUri,
-    { state: JSON.stringify({
-        conversationId: currentConversationId,
-        language: genesysCloudLanguage
-    }) })
-.then(data => {
-    console.log(data);
 
-    // Assign conversation id
-    let stateData = JSON.parse(data.state);
+if (token) {
+    // Token was provided by the server after code exchange
+    client.setAccessToken(token);
+
+    // Parse state to recover conversationId and language
+    let stateData = JSON.parse(decodeURIComponent(stateParam));
     currentConversationId = stateData.conversationId;
     genesysCloudLanguage = stateData.language;
-    
-    // Get messageId
-    return conversationsApi.getConversationsEmail(currentConversationId);
-}).then(data => {
-    console.log(data);
 
-    messageId = data.participants.find(p => p.purpose == 'customer').messageId;
+    // Continue with the existing flow
+    conversationsApi.getConversationsEmail(currentConversationId)
+    .then(data => {
+        console.log(data);
+        messageId = data.participants.find(p => p.purpose == 'customer').messageId;
+        return conversationsApi.getConversationsEmailMessage(currentConversationId, messageId);
+    }).then((data) => {
+        console.log(data);
+        return getEmailDetails(data);
+    }).then(data => {
+        console.log('Finished Setup');
+    }).catch(e => console.log(e));
 
-    // Get email details
-    return conversationsApi.getConversationsEmailMessage(currentConversationId, messageId);
-}).then((data) => { 
-    console.log(data);
+} else {
+    // No token yet — redirect to Genesys Cloud authorize endpoint
+    currentConversationId = urlParams.get('conversationid');
+    genesysCloudLanguage = urlParams.get('language');
 
-    return getEmailDetails(data);
-}).then(data => {
-    console.log('Finished Setup');
+    const state = JSON.stringify({
+        conversationId: currentConversationId,
+        language: genesysCloudLanguage
+    });
 
-// Error Handling
-}).catch(e => console.log(e));
+    const authorizeUrl = `https://login.${config.genesysCloud.region}/oauth/authorize`
+        + `?response_type=code`
+        + `&client_id=${config.clientID}`
+        + `&redirect_uri=${encodeURIComponent(config.redirectUri)}`
+        + `&state=${encodeURIComponent(state)}`;
+
+    window.location.replace(authorizeUrl);
+}

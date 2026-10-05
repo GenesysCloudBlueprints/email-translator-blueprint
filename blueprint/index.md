@@ -112,8 +112,11 @@ This Genesys Cloud Developer Blueprint provides instructions for building an ema
 
 9. Click **Advanced** and enter the following code in the text area. Then save and activate the integration.
 
+   Genesys Cloud renders the Interaction Widget in a sandboxed iframe without top-navigation rights, so the app cannot redirect the widget itself to the Genesys Cloud login page. The `sandbox` property below adds `allow-popups` so the OAuth login button can open the sign-in flow in a popup window instead.
+
   ```{"language":"json"}
      {
+       "sandbox": "allow-scripts,allow-same-origin,allow-forms,allow-modals,allow-popups",
        "lifecycle": {
          "ephemeral": false,
          "hooks": {
